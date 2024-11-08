@@ -99,7 +99,7 @@ int_to_string_loop:
     sb $t3, 0($t0)
     addi $t0, $t0, 1
     
- #   addi $t3, $t3, 1 sei la pq q essa porra tava aqui
+ #   addi $t3, $t3, 1 sei la oq q isso aqui faz
     bnez $a1, int_to_string_loop #continua o loop enquanto o quociente for !=0
 
     # Inverte a string para obter a ordem correta
