@@ -6,7 +6,7 @@
     string2: .space 20 #string desenvertida
     dot_char: .asciiz "."       # Caractere para ponto decimal
     const_10: .double 10.0       # Constante de 10.0 para multiplicação
-    erro_msg: .asciiz "Erro ao abrir o arquivo.\n"
+    erro_msg: .asciiz "ERRO EM ALGUMA COISA.\n"
 
 .text
 .globl main
@@ -15,7 +15,7 @@ main:
     # Abre o arquivo para escrita
     li $v0, 13
     la $a0, filename
-    li $a1, 0
+    li $a1, 1
     syscall
     move $t0, $v0 # Guarda o descritor do arquivo em $t0
 
@@ -73,7 +73,8 @@ inverte_string:
     
     j inverte_string
     
-escreve_arquivo:
+    
+escreve_arquivo: 
     subi $t5, $t5, 1  # Reduz o tamanho para não incluir `#`
         # Syscall para escrever no arquivo
     li $v0, 15                    # Código de syscall para escrever
@@ -81,17 +82,7 @@ escreve_arquivo:
     la $a1, string2     # Endereço dos dados a serem escritos
     move $a2, $t5                   # Número de bytes a escrever ue precisa disso aqui?
     syscall
-
-
-
-    # Verificando o código de retorno de syscall 15
-bltz $v0, erro_escrita  # Se o valor de $v0 for negativo, ocorreu erro na escrita
-
-# Continuação do código
-
-
-
- #   addi $t3, $t3, 1 sei la oq q isso aqui faz
+    
 
 
     # Adiciona ponto decimal ao buffer
@@ -104,12 +95,4 @@ fimloop:
 
     # Finaliza o programa
     li $v0, 10
-    syscall
-    
-    erro_escrita:
-    # Imprimir mensagem de erro
-    li $v0, 4
-    la $a0, erro_msg  # Mensagem de erro
-    syscall
-    li $v0, 10  # Finalizar o programa
     syscall
