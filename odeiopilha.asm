@@ -62,6 +62,7 @@ coloca_ponto:
     li $t4, 46
     sb $t4, 0($a2)
     
+    
 parte_fracionada:
 
     sub.d $f2, $f12, $f0 #diminui a parte inteira e deixa só a parte fracionaria
@@ -122,7 +123,7 @@ escreve_arquivo:
     
 #avança para o proximo valor do vetor
 addi $t2, $t2, 1
-addi $s0, $s0, 4
+addi $s0, $s0, 8
 j loop_vetor
 
 fimloop:
