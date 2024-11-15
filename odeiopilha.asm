@@ -63,17 +63,19 @@ coloca_ponto:
     addi $t6, $t6, 1
     addi $a2, $a2, 1
     
-parte_fracionada:
-
-    sub.d $f2, $f12, $f0 #diminui a parte inteira e deixa só a parte fracionaria
+ #   j escreve_arquivo
     
+parte_fracionada:
+    cvt.d.w $f0, $f0 #converte uma word para double, nao sei se é realmente necessário...
+    sub.d $f2, $f12, $f0 #diminui a parte inteira e deixa só a parte fracionaria
+
     la $t7, const_100000
     l.d $f10, 0($t7) #carrega o numero 100000.0 para a multiplicacao
     
     mul.d $f2, $f2, $f10 #multiplica
     
-    trunc.w.d $f4, $f2
-    mfc1 $a1, $f4
+    trunc.w.d $f2, $f2
+    mfc1 $a1, $f2
     
 #    add $a0, $a0, $t5
     li $t3, 42
@@ -123,11 +125,12 @@ escreve_arquivo:
     la $a1, string2     # Endereço dos dados a serem escritos
     move $a2, $t6                  # Número de bytes a escrever
     syscall
+    move $t0, $v0
     
 #avança para o proximo valor do vetor
-addi $t2, $t2, 1
-addi $s0, $s0, 8
-j loop_vetor
+#addi $t2, $t2, 1
+#addi $s0, $s0, 8
+#j loop_vetor
 
 fimloop:
     # Fecha o arquivo
