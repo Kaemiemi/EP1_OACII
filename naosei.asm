@@ -24,12 +24,7 @@ main:
     li $t2, 0                    # Índice do vetor
 
 loop_vetor:
-# Abre o arquivo para escrita
-    li $v0, 13
-    la $a0, filename
-    li $a1, 1
-    syscall
-    move $t0, $v0 # Guarda o descritor do arquivo em $t0
+
     
     l.d $f12, 0($s0)             # Carrega o valor do vetor em $f12
 
@@ -38,12 +33,11 @@ loop_vetor:
     mfc1 $a1, $f0
     la $a0, string
     
-#    li $t5, 0
+    li $t6, 0
     
 int_to_string:
     li $t3, 35
     sb $t3, 0($a0) #coloca # no comeco da string para declarar que é o comeco
-#    addi $t5, $t5, 1
     addi $a0, $a0, 1
 
 int_to_string_loop:
@@ -54,7 +48,6 @@ int_to_string_loop:
     
     addi $t3, $t3, 48 #ascii
     sb $t3, 0($a0)
-#    addi $t5, $t5, 1 #numero de caracteres
     addi $a0, $a0, 1
     
     bnez $a1, int_to_string_loop #continua o loop enquanto o quociente for !=0
@@ -124,10 +117,6 @@ escreve_arquivo:
     sb $t3, 0($a2)
     addi $t6, $t6, 1
     
-    addi $a2, $a2, 1
-    li $t3, 57
-    sb $t3, 0($a2)
-    addi $t6, $t6, 1
     
         # Syscall para escrever no arquivo
     li $v0, 15                    # Código de syscall para escrever
@@ -137,9 +126,7 @@ escreve_arquivo:
     syscall
     move $t0, $v0
     
-    li $v0, 16
-    move $a0, $t0
-    syscall
+
 #avança para o proximo valor do vetor
 addi $t2, $t2, 1
 addi $s0, $s0, 8
@@ -147,7 +134,9 @@ bne $t2, $t1, loop_vetor        # Verifica se atingiu o final do vetor
 
 fimloop:
     # Fecha o arquivo
-    
+    li $v0, 16
+    move $a0, $t0
+    syscall
 
     # Finaliza o programa
     li $v0, 10
